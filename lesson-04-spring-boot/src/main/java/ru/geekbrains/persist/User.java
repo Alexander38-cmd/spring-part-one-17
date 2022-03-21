@@ -1,23 +1,28 @@
 package ru.geekbrains.persist;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "DB_Users")
+@Table(name = "users")
 public class User {
     @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   @Column(length = 512, nullable = false)
+
+    @NotBlank
+    @Column(nullable = false)
     private String username;
+
+    @Min(value = 18)
     @Column(nullable = false)
     private Integer age;
 
     public User() {
     }
 
-    public User(Long id, String username, Integer age) {
-        this.id = id;
+    public User(String username, Integer age) {
         this.username = username;
         this.age = age;
     }

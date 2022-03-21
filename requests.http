@@ -1,0 +1,30 @@
+GET http://188.93.210.223:8080/spring-boot-app/api/v1/product/all
+
+###
+
+GET http://188.93.210.223:8080/spring-boot-app/api/v1/product/3
+
+###
+
+POST http://188.93.210.223:8080/spring-boot-app/api/v1/product
+Content-Type: application/json
+
+{
+    "title": "Laptop",
+    "price": 110000
+}
+
+###
+
+PUT http://188.93.210.223:8080/spring-boot-app/api/v1/product
+Content-Type: application/json
+
+{
+  "id": 9,
+  "title": "Laptop",
+  "price": 120000
+}
+
+###
+
+DELETE http://188.93.210.223:8080/spring-boot-app/api/v1/product/9

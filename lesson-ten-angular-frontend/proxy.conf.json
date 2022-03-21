@@ -1,0 +1,7 @@
+{
+  "/api/*": {
+    "target": "http://188.93.210.223:8080/spring-boot-app",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

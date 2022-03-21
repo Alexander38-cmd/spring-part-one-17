@@ -13,6 +13,8 @@ import ru.geekbrains.persist.User;
 import ru.geekbrains.persist.UserRepository;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -28,10 +30,17 @@ public class UserController {
     }
 
     @GetMapping
-    public String listPage(Model model) {
+    public String listPage(Model model,
+                           @RequestParam("usernameFilter") Optional<String> usernameFilter,
+                           @RequestParam("minAge") Optional<Integer> minAge,
+                           @RequestParam("maxAge") Optional<Integer> maxAge) {
         logger.info("User list page requested");
+        List<User> users = userRepository.filterUsers(
+                usernameFilter.orElse(null),
+                minAge.orElse(null),
+                minAge.orElse(null));
 
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", users); // Либо userRepository.findAll()
         return "users";
     }
 
@@ -60,14 +69,22 @@ public class UserController {
             return "user_form";
         }
 
-//        if(user.getAge() > 25) {
-//            result.rejectValue("age", "", "Error message");
-//            return "user_form";
-//        }
+        if (user.getAge() > 100) {
+            result.rejectValue("age", "", "Error message");
+            return "user_form";
+        }
 
         userRepository.save(user);
         return "redirect:/user";
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable("id") Long id) {
+        logger.info("Deleting user with id{}", id);
+        userRepository.deleteById(id);
+        return "redirect:/user";
+    }
+
 
     //@ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler
